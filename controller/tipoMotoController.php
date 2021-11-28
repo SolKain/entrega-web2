@@ -26,8 +26,12 @@ class TipoMotoController
     function insertTipoMoto()
     {
         $this->authHelper->checkLoggedIn(true);
+       if(!empty($_REQUEST['terreno'])){
         $this->model->postTipoMoto( $_POST['terreno']);
         header("Location: ". TIPOS);
+        } else{
+            $this->view->showError("Necesita ingresar un terreno para insertar");
+        }
     }
 
     function editarTipoMoto($params = null)
@@ -35,8 +39,12 @@ class TipoMotoController
         $this->authHelper->checkLoggedIn(true);
         $id = $params[':ID'];
         $terreno = $_POST['terreno'];
+        if(!empty($id) && !empty($terreno)){
         $this->model->editTipoMoto($id, $terreno);
         header("Location: ". TIPOS);
+        }else{
+            $this->view->showError("Necesita ingresar un terreno para editar");
+        }
     }
 
     function eliminarTipoMoto($params = null)

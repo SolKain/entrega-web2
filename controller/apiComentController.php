@@ -38,7 +38,8 @@
     function getComentario($params = NULL){
         $body = $this->getBody();
         $id = $params[':ID'];
-        $comentario = $this->model->postComentario($body->id_moto, $body->id_usuario, $body->comentario, $body->puntaje, $body->fecha);
+        $idUsuario = $_GET['idUsuario'];
+        $comentario = $this->model->postComentario($body->comentario, $body->puntaje, $body->$idUsuario, $body->id_moto);
        
         if(!empty($comentario)){
             $this->view->response($comentario, 200);
@@ -65,8 +66,9 @@
     function insertComentario($params = null){
         $body = $this->getBody();
         $id_moto = $params[':ID'];
+        $idUsuario = $_POST['idUsuario'];
 
-        $idComentario = $this->model->postComentario($body->comentario, $body->puntuacion, $id_moto);
+        $idComentario = $this->model->postComentario($body->comentario, $body->puntuacion,$idUsuario, $id_moto);
 
         $this->view->response($idComentario, 200);
         if(!empty($idComentario)){

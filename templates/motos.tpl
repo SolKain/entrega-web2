@@ -1,7 +1,7 @@
  {include file="templates/header.tpl"}
 
          <div class="formFiltar">
-          {if $isLoggedIn && $isAdmin}
+          {if $isLoggedIn}
           <form action="filtrar" method="POST" class="formTabla" id="formTabla" enctype="multipart/form-data">
             <label for="">Filtrar por tipo:</label>
           <select name="id_tipo_moto">

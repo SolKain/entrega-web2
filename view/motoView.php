@@ -46,6 +46,13 @@ class MotoView{
         $this->smarty->display('templates/motoParticular.tpl');
     }
 
+    function showError($mensaje){
+        $this->smarty->assign('isAdmin', $this->authHelper->isAdmin());
+        $this->smarty->assign('isLoggedIn', $this->authHelper->isLoggedIn());
+        $this->smarty->assign('mensaje', $mensaje);
+        $this->smarty->display('templates/error.tpl');
+    }
+
   
 }
 

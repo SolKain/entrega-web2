@@ -39,6 +39,13 @@ class TipoMotoView{
         header("Location: ".BASE_URL."home");
     }
 
+    function showError($mensaje){
+        $this->smarty->assign('isAdmin', $this->authHelper->isAdmin());
+        $this->smarty->assign('isLoggedIn', $this->authHelper->isLoggedIn());
+        $this->smarty->assign('mensaje', $mensaje);
+        $this->smarty->display('templates/error.tpl');
+    }
+
 
 }
 

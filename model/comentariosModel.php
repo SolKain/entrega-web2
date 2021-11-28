@@ -14,7 +14,7 @@ class ComentariosModel{
     }
 
     function getComentariosGenerales(){
-        $sentencia = $this->db->prepare("SELECT * FROM comentarios");
+        $sentencia = $this->db->prepare("SELECT comentarios.*, usuarios.idUsuario FROM comentarios JOIN usuarios ON comentarios.id = usuarios.id");
         $sentencia->execute();
         return $sentencia->fetchAll(PDO::FETCH_OBJ);
     }
@@ -30,9 +30,9 @@ class ComentariosModel{
         $sentencia->execute();
     }
 
-    function postComentario($comentario, $puntuacion, $id_moto){
-        $sentencia = $this->db->prepare("INSERT INTO comentarios(comentario, puntuacion, idMoto) VALUES(?,?,?)");
-        $a = $sentencia->execute(array($comentario, $puntuacion,$id_moto));
+    function postComentario($comentario, $puntuacion,$idUsuario, $id_moto){
+        $sentencia = $this->db->prepare("INSERT INTO comentarios(comentario, puntuacion,idUsuario, idMoto) VALUES(?,?,?,?)");
+        $a = $sentencia->execute(array($comentario, $puntuacion,$idUsuario, $id_moto));
         return $this->db->lastInsertId();
     }
 

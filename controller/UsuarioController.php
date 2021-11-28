@@ -48,7 +48,7 @@ class UsuarioController
         $contrasenia = $_POST['contrasenia'];
         $contraseniaSegura = password_hash($contrasenia, PASSWORD_BCRYPT);
         $this->model->crearUsuario($usuario, $contraseniaSegura);
-        $this->view->showLogin();
+        $this->verifyLogin();
     }
 
     function verifyLogin()

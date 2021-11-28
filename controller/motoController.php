@@ -26,7 +26,6 @@ class MotoController{
     function getMotos(){
         $motos = $this -> model ->listMoto();
         $tipos = $this -> tipoModel ->listTipoMoto();
-        
         $this->view->showMotos($motos, $tipos);
     }
     
@@ -46,8 +45,12 @@ class MotoController{
         $cilindrada = $_POST['cilindrada'];
         $tanque = $_POST['tanque'];
         $idTipoMoto = $_POST['id_tipo_moto'];
+        if(!empty($color) && !empty($cilindrada) && !empty($tanque) && !empty($idTipoMoto)){
         $this->model->postMoto($color, $cilindrada, $tanque, $idTipoMoto);
         header("Location: ". MOTOS);
+        } else{
+            $this->view->showError("Necesita ingresar los valores de una moto");
+        }
         }
         
 
@@ -65,8 +68,12 @@ class MotoController{
         $cilindrada = $_POST['cilindrada'];
         $tanque = $_POST['tanque'];
         $idTipoMoto = $_POST['id_tipo_moto'];
+        if(!empty($color) && !empty($cilindrada) && !empty($tanque) && !empty($idTipoMoto)){
         $this->model->editMotoPorId($idMoto, $color, $cilindrada, $tanque, $idTipoMoto);
         header("Location: ". MOTOS);
+        }else{
+            $this->view->showError("Necesita ingresar los valores para editar una moto");
+        }
     }  
 
     function goToEditMoto($params = null){
