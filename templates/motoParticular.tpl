@@ -1,10 +1,11 @@
  {include file="templates/header.tpl"}
+ <script src="js/comentarios.js"></script>
 <section>
         <table id="tablaMoto">
             <thead>
                 <tr>
-                 <th> Color </th>
-                <th>Cilindrada</th>
+                 <th id={$moto->id}> Color </th>
+                <th id={$usuario}>Cilindrada</th>
                 <th>Tanque</th>
                 <th>Tipo</th>
                 </tr>
@@ -26,8 +27,9 @@
 <section>
           <table>
             <thead id="columnas">
-              <th>Comentario</th>
-              <th>Puntuacion</th>
+              <th>Comentarios</th>
+              <th>Puntuaciones</th>
+              <th>Usuarios</th>
               {if $isLoggedIn && $isAdmin}
               <th>Borrar</th>
               {/if}
@@ -39,6 +41,5 @@
           {include file="templates/formComentarios.tpl"}
 </section>
 
-<script src="js/comentarios.js"></script>
 
 {include file="templates/footer.tpl"}

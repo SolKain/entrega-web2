@@ -10,7 +10,7 @@ class MotoModel{
 
     function postMoto($color, $cilindrada, $tanque, $id_tipo_moto){
         $sentencia = $this->db->prepare("INSERT INTO moto(color, cilindrada, tanque, id_tipo_moto) VALUES(?,?,?,?)");
-        $a = $sentencia->execute(array($color, $cilindrada, $tanque, $id_tipo_moto));
+        $sentencia->execute(array($color, $cilindrada, $tanque, $id_tipo_moto));
     }
 
     function editMotoPorID($id_moto, $color, $cilindrada, $tanque, $id_tipo_moto){

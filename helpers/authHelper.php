@@ -40,4 +40,14 @@ class AuthHelper{
         return isset($_SESSION["usuario"]);
     }
 
+    function getUsuario(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(isset($_SESSION["usuario"])){
+            return $_SESSION["usuario"]->id;
+        } else return -1;
+    }
+
+
 }

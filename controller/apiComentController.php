@@ -49,26 +49,25 @@
     }
 
     function deleteComentario($params = null) {
-        if($this->helper->checkLoggedIn(true)){
-        $idComentario = $params[':ID'];
-        $comentario = $this->model->getComentario($idComentario);
+        //if($this->helper->checkLoggedIn(true)){
+            $idComentario = $params[':ID'];
+            $comentario = $this->model->getComentario($idComentario);
 
-        if (!empty($comentario)) {
-            $this->model->deleteComentario($idComentario);
-            $this->view->response("El comentario id=$idComentario fue eliminado con éxito", 200);
-        }
-        else 
-            $this->view->response("El comentario id=$idComentario not found", 404);
-   }
+            if (!empty($comentario)) {
+                $this->model->deleteComentario($idComentario);
+                $this->view->response("El comentario id=$idComentario fue eliminado con éxito", 200);
+            }
+            else 
+                $this->view->response("El comentario id=$idComentario not found", 404);
+        //}
     }
 
 
     function insertComentario($params = null){
+
         $body = $this->getBody();
         $id_moto = $params[':ID'];
-        $idUsuario = $_POST['idUsuario'];
-
-        $idComentario = $this->model->postComentario($body->comentario, $body->puntuacion,$idUsuario, $id_moto);
+        $idComentario = $this->model->postComentario($body->comentario, $body->puntuacion,$body->usuario, $id_moto);
 
         $this->view->response($idComentario, 200);
         if(!empty($idComentario)){

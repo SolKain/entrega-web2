@@ -43,6 +43,7 @@ class MotoView{
         $this->smarty->assign('moto', $moto);
         $this->smarty->assign('isAdmin', $this->authHelper->isAdmin());
         $this->smarty->assign('isLoggedIn', $this->authHelper->isLoggedIn());
+        $this->smarty->assign('usuario', $this->authHelper->getUsuario());
         $this->smarty->display('templates/motoParticular.tpl');
     }
 

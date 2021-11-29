@@ -33,8 +33,8 @@ class UsuarioModel{
     }
     
     function eliminarUsuario($id){
-        $sentencia = $this->db->prepare("DELETE FROM usuarios WHERE id=$id");
-        $sentencia->execute();
+        $sentencia = $this->db->prepare("DELETE FROM usuarios WHERE id=?");
+        $sentencia->execute(array($id));
     }
 
     function editPermisoUsuario($id, $administrador){

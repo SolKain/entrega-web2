@@ -1,10 +1,18 @@
 //document.addEventListener("DOMContentLoaded", function(){
-  let mainURL = 'http://localhost/tpe-web2/api/comentarios';
-  let subURL = 'http://localhost/tpe-web2/api/comentario/';
-  let postURL = 'http://localhost/tpe/api/tendencia/';
+  let mainURL = 'http://localhost/entrega-web2/api/comentarios';
+  let subURL = 'http://localhost/entrega-web2/api/comentario/';
+
+  document.addEventListener("DOMContentLoaded", function(){
+      inicializarBotonAgregar();
+      setTimeout(idComentarios, 1);
+
+    });
+
+  llamadoPrincipal();
+
 
   function mostrarComentariosDeMoto(id){
-      fetch (mainURL,  {
+      fetch (mainURL + "Generales",  {
           "method" : "GET",
           "mode" : "cors",
       }).then(function(r){
@@ -14,8 +22,8 @@
               return r.json();
           })
           .then(function(json) {
-              
               actualizarTabla(json, id);
+              
           })
           .catch(function(e){
               console.log(e)
@@ -26,45 +34,47 @@
       let tabla = document.querySelector("#tablaComentarios");
       let filas = document.querySelector("#columnas").rows[0].cells.length;
       tabla.innerHTML = " ";
+      
       for (let index = 0; index<json.length; index++){
           let comentarioActual = json[index];
           let idJson = comentarioActual.id;
           if(id == comentarioActual.idMoto){
-              if(filas == 3){
+              if(filas == 4){
                   tabla.innerHTML +=                     
                   `<tr>
                   <td>${comentarioActual.comentario}</td>
                   <td>${comentarioActual.puntuacion}</td>
+                  <td>${comentarioActual.usuario}</td>
                   <td><button class="btn-delete" id="${idJson}">Eliminar</button></td>
                   </tr>`
               }
-              else if(filas == 2){
+              else if(filas == 3){
                   tabla.innerHTML +=                     
                   `<tr>
                   <td>${comentarioActual.comentario}</td>
                   <td>${comentarioActual.puntuacion}</td>
+                  <td>${comentarioActual.usuario}</td>
                   </tr>`
               }
           }
       }
-      inicializarBoton();
-      setTimeout(idComentarios, 1);
+      inicializarBotonEliminar();
   }
 
   
-  function insertarComentario(data){
-      fetch(subURL + data.idMoto, {
+  function insertarComentario(idMoto,data){
+      console.log(data);
+      fetch(subURL + idMoto, {
           "method": "POST",
           "mode": "cors",
           "headers": { "Content-Type": "application/json" },
           "body": JSON.stringify(data)
       }).then(function (r) {
-          return r.json();
-      }).then(function (r) {
-          console.log(r);
-          mostrarComentariosDeMoto(data.idMoto);
+          let jsonResponse = r.json();
+          console.log(jsonResponse);
+          mostrarComentariosDeMoto(idMoto);
       });
-  }
+    }
 
   function deleteComentario(id){
       fetch(subURL + id, {
@@ -81,22 +91,35 @@
   };
 
   function llamadoPrincipal(){
-      let tabla = document.querySelector("#tablaMoto");
-      let idMotoParticular = tabla.rows.item(0).cells[1].id;
-      
-      mostrarComentariosDeMoto(idMotoParticular);
+      let urlPagina = window.location.href;
+      let idMoto = urlPagina.charAt(45);
+      idMoto += urlPagina.charAt(46);
+      mostrarComentariosDeMoto(idMoto);
   }
 
-  function inicializarBoton(){
-      document.querySelectorAll(".btn-delete").forEach(element => element.addEventListener("click", function(){ 
+  function inicializarBotonEliminar(){
+      document.querySelectorAll(".btn-delete").forEach(element => element.addEventListener("click", function(){
+          console.log(element.id); 
           deleteComentario(element.id);
       }));  
   }
 
+  function inicializarBotonAgregar(){
+    document.querySelector("#btnAgregar").addEventListener("click", function(){
+        let comentario = document.querySelector("#comentario").value;
+        let puntuacion = document.querySelector("#puntuacion").value;
+        let tabla = document.querySelector("#tablaMoto");
+        let idMotoParticular = tabla.rows.item(0).cells[0].id;
+        let usuario = tabla.rows.item(0).cells[1].id;
+        let body = {
+            'comentario' : comentario,
+            'puntuacion' : puntuacion,
+            'usuario' :  usuario
+        }
+        insertarComentario(idMotoParticular, body);
+    });  
+}
 
-  llamadoPrincipal();
-
-  
 
   function validarInsert(){
       let comentario = document.querySelector("#comentario").value;
@@ -111,12 +134,10 @@
       }
   }
 
-
   function idComentarios(){
-      let tabla = document.querySelector("#tablaMoto");
-      let idMotoParticular = tabla.rows.item(0).cells[1].id;
-      document.querySelector("#formComentarios").action = "motoParticular/" + idMotoParticular;
-  }
+    document.querySelector("#formComentarios").action = 'javascript:void(0)';
+}
+
 
   
   
